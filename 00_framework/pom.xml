@@ -52,7 +52,7 @@
 		<commons-collections_version>3.2</commons-collections_version>
 		<commons-httpclient.version>3.1</commons-httpclient.version>
 		<!-- extension -->
-		<lombok_version>1.16.16</lombok_version>
+		<lombok_version>1.18.24</lombok_version>
 		<!--务必用高版本，1.2.48以下有序列化远程执行漏洞【高危】-->
 		<fastjson_version>1.2.75</fastjson_version>
 		<!--修复0.10版本的连接BUG-->
