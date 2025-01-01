@@ -14,7 +14,7 @@ public interface MemberInviteStasticDao extends  BaseDao<MemberInviteStastic> {
 
 	MemberInviteStastic findByMemberId(Long memberId);
 	
-	MemberInviteStastic findById(Long id);
+//	MemberInviteStastic findById(Long id);
 	
 	@Query(value = "select * from member_invite_stastic order by estimated_reward desc limit :count", nativeQuery = true)
 	List<MemberInviteStastic> getTopTotalAmount(@Param("count") int count);

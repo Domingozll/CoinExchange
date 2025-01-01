@@ -63,7 +63,7 @@ public class MemberAddressService extends BaseService {
 
     public Page<MemberAddress> pageQuery(int pageNo, Integer pageSize, long id,String unit) {
         Sort orders = Criteria.sortStatic("id.desc");
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         Criteria<MemberAddress> specification = new Criteria<>();
         specification.add(Restrictions.eq("memberId",id,false));
         specification.add(Restrictions.eq("status", CommonStatus.NORMAL, false));

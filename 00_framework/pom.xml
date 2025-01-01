@@ -21,14 +21,14 @@
 		<module>otc-core</module>
         <module>otc-api</module>
         <module>ucenter-api</module>
-        <module>cloud</module>
+<!--        <module>cloud</module>-->
         <module>wallet</module>
 	</modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.22.RELEASE</version>
+		<version>2.7.10</version>
 		<relativePath />
 		<!-- lookup parent from repository -->
 	</parent>
@@ -36,53 +36,57 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<project.build.jdk_version>1.8</project.build.jdk_version>
+		<project.build.jdk.version>1.8</project.build.jdk.version>
 		<!-- spring -->
-		<spring-cloud.version>Edgware.RELEASE</spring-cloud.version>
-		<spring-boot_version>1.5.22.RELEASE</spring-boot_version>
-		<!-- 数据库连接 -->
-		<druid_version>1.1.24</druid_version>
-		<mysql.version>8.0.22</mysql.version>
+		<spring-cloud.version>2021.0.7</spring-cloud.version>
+		<spring-cloud-alibaba.version>2.2.8.RELEASE</spring-cloud-alibaba.version>
+		<spring-boot.version>2.7.10</spring-boot.version>
+		<spring-session.version>1.3.5.RELEASE</spring-session.version>
+		<spring-session-data-redis.version>2.7.1</spring-session-data-redis.version>
+		<mysql.version>8.0.33</mysql.version>
 		<!-- commons包 -->
-		<commons-codec_version>1.10</commons-codec_version>
-		<commons-fileupload_version>1.3</commons-fileupload_version>
-		<commons-beanutils_version>1.8.3</commons-beanutils_version>
-		<commons-lang3_version>3.4</commons-lang3_version>
-		<commons-logging_version>1.1.3</commons-logging_version>
-		<commons-collections_version>3.2</commons-collections_version>
+		<commons-codec.version>1.15</commons-codec.version>
+		<commons-fileupload.version>1.4</commons-fileupload.version>
+		<commons-beanutils.version>1.9.4</commons-beanutils.version>
+		<commons-lang3.version>3.12.0</commons-lang3.version>
+		<commons-logging.version>1.2</commons-logging.version>
+		<commons-collections.version>3.2.2</commons-collections.version>
 		<commons-httpclient.version>3.1</commons-httpclient.version>
 		<!-- extension -->
-		<lombok_version>1.18.24</lombok_version>
+		<lombok.version>1.18.26</lombok.version>
 		<!--务必用高版本，1.2.48以下有序列化远程执行漏洞【高危】-->
-		<fastjson_version>1.2.75</fastjson_version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<!--修复0.10版本的连接BUG-->
-		<kafka_version>0.10.2.2</kafka_version>
+		<kafka.version>3.2.3</kafka.version>
 		<!-- Log libs -->
-		<slf4j_version>1.7.7</slf4j_version>
-		<jcl_version>1.1</jcl_version>
-		<log4j_version>1.2.17</log4j_version>
-		<logback_version>1.2.3</logback_version>
-		<logback-ext-spring_version>0.1.5</logback-ext-spring_version>
+		<slf4j.version>1.7.36</slf4j.version>
+		<jcl.version>1.1</jcl.version>
+		<log4j.version>1.2.17</log4j.version>
+		<logback.version>1.2.11</logback.version>
+		<logback-ext-spring.version>0.1.5</logback-ext-spring.version>
 		<!-- Test Libs -->
-		<junit_version>4.12</junit_version>
+		<junit.version>4.12</junit.version>
 		<!--shiro 高危权限绕过漏洞。https://www.freebuf.com/vuls/249112.html -->
-		<shiro_version>1.7.0</shiro_version>
+		<shiro.version>1.10.0</shiro.version>
 		<!--netty 高危拒绝服务漏洞。https://www.anquanke.com/vul/id/1984197 -->
-		<netty_version>4.1.58.Final</netty_version>
-		<protostuff_version>1.5.4</protostuff_version>
-		<ehcache_version>2.6.11</ehcache_version>
-		<guava_version>21.0</guava_version>
-		<protostuff_version>1.5.9</protostuff_version>
+		<netty.version>4.1.90.Final</netty.version>
+		<protostuff.version>1.8.0</protostuff.version>
+		<ehcache.version>2.6.11</ehcache.version>
+		<guava.version>21.0</guava.version>
+		<protostuff.version>1.5.9</protostuff.version>
 		<!--务必版本大于1.4.14 否则有远程执行等高危漏洞-->
 		<xstream-version>1.4.15</xstream-version>
 		<!--用高版本修复序列化漏洞-->
-		<jackson.version>2.12.1</jackson.version>
+		<jackson.version>2.13.5</jackson.version>
 
 		<essypoi.version>3.0.3</essypoi.version>
 
 		<protobuf.version>3.11.4</protobuf.version>
 
-		<querydsl.version>4.1.3</querydsl.version>
+		<querydsl.version>5.0.0</querydsl.version>
+		<hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
+		<dom4j.version>2.1.3</dom4j.version>
+		<javax-annotation-api.version>1.3.2</javax-annotation-api.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -100,33 +104,16 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>druid-spring-boot-starter</artifactId>
-				<version>${druid_version}</version>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+				<version>${spring-cloud-alibaba.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-				<version>1.4.7.RELEASE</version>
-				<exclusions>
-					<!--务必排除旧版。版本大于1.4.14 否则有远程执行等高危漏洞-->
-					<exclusion>
-						<groupId>com.thoughtworks.xstream</groupId>
-						<artifactId>xstream</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-ribbon</artifactId>
-				<version>1.4.7.RELEASE</version>
-				<exclusions>
-					<!--务必排除旧版。版本大于1.4.14 否则有远程执行等高危漏洞-->
-					<exclusion>
-						<groupId>com.thoughtworks.xstream</groupId>
-						<artifactId>xstream</artifactId>
-					</exclusion>
-				</exclusions>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${spring-cloud-alibaba.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 
 			<dependency>
@@ -138,136 +125,136 @@
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-cache</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-data-redis</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-freemarker</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-websocket</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-devtools</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-data-jpa</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-autoconfigure</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-test</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-actuator</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-security</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<!-- 发送邮件. -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-mail</artifactId>
-				<version>${spring-boot_version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>${junit_version}</version>
+				<version>${junit.version}</version>
 			</dependency>
 			<!-- commons依赖包 -->
 			<dependency>
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
-				<version>${commons-codec_version}</version>
+				<version>${commons-codec.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-fileupload</groupId>
 				<artifactId>commons-fileupload</artifactId>
-				<version>${commons-fileupload_version}</version>
+				<version>${commons-fileupload.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils-core</artifactId>
-				<version>${commons-beanutils_version}</version>
+				<version>${commons-beanutils.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
-				<version>${commons-lang3_version}</version>
+				<version>${commons-lang3.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
-				<version>${commons-logging_version}</version>
+				<version>${commons-logging.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-collections</groupId>
 				<artifactId>commons-collections</artifactId>
-				<version>${commons-collections_version}</version>
+				<version>${commons-collections.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j_version}</version>
+				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4j_version}</version>
-			</dependency>
-			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>${log4j_version}</version>
+				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-access</artifactId>
-				<version>${logback_version}</version>
+				<version>${logback.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>${logback_version}</version>
+				<version>${logback.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-core</artifactId>
-				<version>${logback_version}</version>
+				<version>${logback.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.logback-extensions</groupId>
 				<artifactId>logback-ext-spring</artifactId>
-				<version>${logback-ext-spring_version}</version>
+				<version>${logback-ext-spring.version}</version>
 			</dependency>
 
 			<dependency>
@@ -279,7 +266,7 @@
 			<dependency>
 				<groupId>org.apache.kafka</groupId>
 				<artifactId>kafka-clients</artifactId>
-				<version>${kafka_version}</version>
+				<version>${kafka.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
@@ -289,12 +276,12 @@
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
-				<version>${lombok_version}</version>
+				<version>${lombok.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
-				<version>${fastjson_version}</version>
+				<version>${fastjson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -307,12 +294,12 @@
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-spring</artifactId>
-				<version>${shiro_version}</version>
+				<version>${shiro.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-quartz</artifactId>
-				<version>${shiro_version}</version>
+				<version>${shiro.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>com.zaxxer</groupId>
@@ -327,12 +314,12 @@
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-ehcache</artifactId>
-				<version>${shiro_version}</version>
+				<version>${shiro.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-core</artifactId>
-				<version>${shiro_version}</version>
+				<version>${shiro.version}</version>
 			</dependency>
 
 			<dependency>
@@ -353,8 +340,8 @@
 
 			<dependency>
 				<groupId>org.springframework.session</groupId>
-				<artifactId>spring-session</artifactId>
-				<version>1.3.5.RELEASE</version>
+				<artifactId>spring-session-data-redis</artifactId>
+				<version>${spring-session-data-redis.version}</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.pac4j/pac4j-cas -->
 			<dependency>
@@ -401,6 +388,23 @@
 				<version>1</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.hibernate.validator</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate-validator.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>${dom4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.annotation</groupId>
+				<artifactId>javax.annotation-api</artifactId>
+				<version>${javax-annotation-api.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

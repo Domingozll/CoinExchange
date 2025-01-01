@@ -32,7 +32,7 @@ public class ExchangeOrderDetailController extends BaseAdminController {
         if(!StringUtils.isEmpty(message.getUidFrom())){
             criteria.where("uidFrom").is(message.getUidFrom());
         }*/
-        // Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,message.getSortFiled()));
+        // Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC,message.getSortFiled()));
         // Query query = new Query(criteria).with(sort);
         //EntityPage<ExchangeOrderDetailAggregation> result = exchangeOrderDetailAggregationService.findAllByPageNo(criteria,pageNo,pageSize);
         return success();

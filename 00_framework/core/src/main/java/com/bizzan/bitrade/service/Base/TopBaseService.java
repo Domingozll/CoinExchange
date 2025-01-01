@@ -6,20 +6,10 @@ import com.bizzan.bitrade.ability.UpdateAbility;
 import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.dto.Pagenation;
-import com.bizzan.bitrade.pagination.PageListMapResult;
-import com.bizzan.bitrade.pagination.QueryDslContext;
-import com.bizzan.bitrade.vo.RegisterPromotionVO;
 import com.querydsl.core.types.Predicate;
-
 import lombok.Setter;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.ResultTransformer;
-import org.hibernate.transform.Transformers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
-import org.aspectj.lang.annotation.Aspect;
-import org.hibernate.SQLQuery;
-import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +18,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TopBaseService<E, D extends BaseDao> {
 
@@ -43,7 +31,7 @@ public class TopBaseService<E, D extends BaseDao> {
 
 
     public E findById(Serializable id) {
-        return (E) dao.findOne(id);
+        return (E) dao.findById(id).orElse(null);
     }
 
     public List<E> findAll() {
@@ -112,8 +100,11 @@ public class TopBaseService<E, D extends BaseDao> {
      * @return
      */
     public Pagenation<E> pageQuery(Pagenation pagenation, Predicate predicate) {
-        Sort sort = new Sort(pagenation.getPageParam().getDirection(), pagenation.getPageParam().getOrders());
-        Pageable pageable = new PageRequest(pagenation.getPageParam().getPageNo() - 1, pagenation.getPageParam().getPageSize(), sort);
+        List<Sort.Order> orders = pagenation.getPageParam().getOrders().stream().map(data->{
+            return new Sort.Order(pagenation.getPageParam().getDirection(),data);
+        }).collect(Collectors.toList());
+        Sort sort =  Sort.by(orders);
+        Pageable pageable = PageRequest.of(pagenation.getPageParam().getPageNo() - 1, pagenation.getPageParam().getPageSize(), sort);
         Page<E> page = dao.findAll(predicate, pageable);
         return pagenation.setData(page.getContent(), page.getTotalElements(), page.getTotalPages());
     }

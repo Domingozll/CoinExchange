@@ -65,7 +65,7 @@ public class WithdrawRecordService extends BaseService {
     }
 
     public WithdrawRecord findOne(Long id) {
-        return withdrawApplyDao.findOne(id);
+        return withdrawApplyDao.findById(id).orElse(null);
     }
 
     /**
@@ -122,7 +122,7 @@ public class WithdrawRecordService extends BaseService {
         WithdrawRecord withdrawRecord;
         for (Long id : ids) {
             //20	4.70000000	0	2018-02-27 17:47:37		0.30000000	0	28	0	5.00000000			GalaxyChain
-            withdrawRecord = withdrawApplyDao.findOne(id);
+            withdrawRecord = withdrawApplyDao.findById(id).orElse(null);
             //确认提现申请存在
             notNull(withdrawRecord, "不存在");
             //确认订单状态是审核中
@@ -216,7 +216,7 @@ public class WithdrawRecordService extends BaseService {
     @Transactional(readOnly = true)
     public Page<WithdrawRecord> findAllByMemberId(Long memberId, int page, int pageSize) {
         Sort orders = Criteria.sortStatic("id.desc");
-        PageRequest pageRequest = new PageRequest(page, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(page, pageSize, orders);
         Criteria<WithdrawRecord> specification = new Criteria<WithdrawRecord>();
         specification.add(Restrictions.eq("memberId", memberId, false));
         return withdrawApplyDao.findAll(specification, pageRequest);

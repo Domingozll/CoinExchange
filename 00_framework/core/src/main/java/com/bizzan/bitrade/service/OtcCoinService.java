@@ -68,7 +68,7 @@ public class OtcCoinService extends BaseService {
     }
 
     public OtcCoin findOne(Long id) {
-        return otcCoinDao.findOne(id);
+        return otcCoinDao.findById(id).orElse(null);
     }
 
     public OtcCoin findByUnit(String unit) {
@@ -95,7 +95,7 @@ public class OtcCoinService extends BaseService {
         //排序方式
         Sort orders = Criteria.sortStatic("sort");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         //查询条件
         Criteria<OtcCoin> specification = new Criteria<OtcCoin>();
         specification.add(Restrictions.like("name", name, false));
@@ -107,7 +107,7 @@ public class OtcCoinService extends BaseService {
     @Transactional(rollbackFor = Exception.class)
     public void deletes(Long[] ids) {
         for (long id : ids) {
-            otcCoinDao.delete(id);
+            otcCoinDao.deleteById(id);
         }
     }
 

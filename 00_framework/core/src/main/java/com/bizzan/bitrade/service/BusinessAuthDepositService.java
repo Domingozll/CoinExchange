@@ -33,7 +33,7 @@ public class BusinessAuthDepositService extends BaseService {
     }
 
     public BusinessAuthDeposit findById(Long id){
-        return businessAuthDepositDao.findOne(id);
+        return businessAuthDepositDao.findById(id).orElse(null);
     }
 
     public void save(BusinessAuthDeposit businessAuthDeposit){

@@ -35,8 +35,8 @@ public class DepositService {
 
     public Deposit findLatest(){
         Sort.Order order = new Sort.Order(Sort.Direction.DESC,"blockHeight");
-        Sort sort = new Sort(order);
-        PageRequest page = new PageRequest(0, 1, sort);
+        Sort sort = Sort.by(order);
+        PageRequest page = PageRequest.of(0, 1, sort);
         Query query = new Query();
         query.with(page);
         Deposit result = mongoTemplate.findOne(query,Deposit.class,getCollectionName());

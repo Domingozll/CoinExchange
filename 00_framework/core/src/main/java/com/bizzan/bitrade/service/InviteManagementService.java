@@ -31,7 +31,7 @@ public class InviteManagementService extends BaseService{
         Criteria<Member> releaseBalance = new Criteria<>();
         Sort sort = releaseBalance.sort("registrationTime.desc");
         // PageNum 当前页 PageSize 每页多少条
-        PageRequest pageRequest = new PageRequest(inviteManagementVO.getPageNo() - 1,inviteManagementVO.getPageSize(),sort);
+        PageRequest pageRequest = PageRequest.of(inviteManagementVO.getPageNo() - 1,inviteManagementVO.getPageSize(),sort);
         return dao.findAll(releaseBalance,pageRequest);
     }
 
@@ -52,7 +52,7 @@ public class InviteManagementService extends BaseService{
         if(StringUtils.isNotEmpty(imVO.getEmail())){
             criteria.add(Restrictions.eq("email", imVO.getEmail(), false));
         }
-        PageRequest pageRequest = new PageRequest(imVO.getPageNo() - 1,imVO.getPageSize(),sort);
+        PageRequest pageRequest = PageRequest.of(imVO.getPageNo() - 1,imVO.getPageSize(),sort);
         return dao.findAll(criteria,pageRequest);
     }
 
@@ -62,7 +62,7 @@ public class InviteManagementService extends BaseService{
      * @return
      */
     public Page<Member> queryId(InviteManagementVO inviteManagementVO) {
-        Member member = dao.findOne(inviteManagementVO.getId());
+        Member member = dao.findById(inviteManagementVO.getId()).orElse(null);
         // 获取当前用户的id  根据id去查询邀请者ID 为这个id 的所有的数据
         List<Member> memberList = new ArrayList<>();
         List<Member> firstMemberList = dao.findAllByInviterId(member.getId());
@@ -82,7 +82,7 @@ public class InviteManagementService extends BaseService{
         }
         // 对查询出来的list进行ID倒序排序
         ListSort(memberList);
-        Pageable pageable = new PageRequest(inviteManagementVO.getPageNumber() -1, inviteManagementVO.getPageSize());
+        Pageable pageable = PageRequest.of(inviteManagementVO.getPageNumber() -1, inviteManagementVO.getPageSize());
         PageImpl<Member> pageData = getPageData(pageable, memberList);
 
         return pageData;

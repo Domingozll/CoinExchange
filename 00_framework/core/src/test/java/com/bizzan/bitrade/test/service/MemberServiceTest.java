@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.test.BaseTest;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 
-public class MemberServiceTest extends BaseTest {
+public class MemberServiceTest extends AbstractJUnit4SpringContextTests {
 
 	@Autowired
 	private MemberService memberService;

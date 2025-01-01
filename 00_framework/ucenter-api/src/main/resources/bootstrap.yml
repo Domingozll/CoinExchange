@@ -1,0 +1,18 @@
+spring:
+  main:
+    allow-circular-references: true
+  devtools:
+    add-properties: false
+  application:
+    name: uc
+  profiles:
+    active: dev
+  cloud: #nacos地址 这里将会从nacos远程拉取配置信息
+    nacos:
+      server-addr: 192.168.1.110:8848
+      config:
+        file-extension: yaml
+logback:
+  path: ./logs
+logging:
+  config: classpath:logback-spring.xml

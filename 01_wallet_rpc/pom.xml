@@ -26,12 +26,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.22.RELEASE</version>
+        <version>${spring-boot.version}</version>
         <relativePath/>
     </parent>
 
     <properties>
         <project-version>1.2</project-version>
+        <spring-boot.version>2.7.10</spring-boot.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <spring-cloud.version>Edgware.RELEASE</spring-cloud.version>
         <jackson.version>2.12.1</jackson.version>
@@ -121,7 +122,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-devtools</artifactId>
-                <version>1.5.9.RELEASE</version>
+                <version>${spring-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>

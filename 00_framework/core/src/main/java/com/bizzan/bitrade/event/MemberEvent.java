@@ -142,7 +142,7 @@ public class MemberEvent {
         memberPromotionService.save(one);
         
         if (member1.getInviterId() != null) {
-            Member member2 = memberDao.findOne(member1.getInviterId());
+            Member member2 = memberDao.findById(member1.getInviterId()).orElse(null);
             // 当A推荐B，B推荐C，如果C通过实名认证，则B和A都可以获得奖励
             promotionLevelTwo(rewardPromotionSetting, member2, member);
         }
@@ -178,7 +178,7 @@ public class MemberEvent {
         two.setLevel(PromotionLevel.TWO);
         memberPromotionService.save(two);
         if (member2.getInviterId() != null) {
-            Member member3 = memberDao.findOne(member2.getInviterId());
+            Member member3 = memberDao.findById(member2.getInviterId()).orElse(null);
             member3.setThirdLevel(member3.getThirdLevel() + 1);
         }
     }

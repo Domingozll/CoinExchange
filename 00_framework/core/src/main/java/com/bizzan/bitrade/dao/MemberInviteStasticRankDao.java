@@ -14,7 +14,7 @@ public interface MemberInviteStasticRankDao extends  BaseDao<MemberInviteStastic
 
 	MemberInviteStasticRank findByMemberId(Long memberId);
 	
-	MemberInviteStasticRank findById(Long id);
+//	MemberInviteStasticRank findById(Long id);
 	
 	/**
 	 * 获取最新排名

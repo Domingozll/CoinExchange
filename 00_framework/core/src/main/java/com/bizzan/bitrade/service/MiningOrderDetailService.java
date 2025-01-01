@@ -22,7 +22,7 @@ public class MiningOrderDetailService extends BaseService {
 	private MiningOrderDetailDao miningOrderDetailDao;
 	
 	public MiningOrderDetail findOne(Long id) {
-		return miningOrderDetailDao.findOne(id);
+		return miningOrderDetailDao.findById(id).orElse(null);
 	}
 	
     public MiningOrderDetail save(MiningOrderDetail miningOrderDetail) {
@@ -40,7 +40,7 @@ public class MiningOrderDetailService extends BaseService {
     public Page<MiningOrderDetail> findAllByMemberId(Long memberId, int pageNo, int pageSize) {
     	Sort orders = Criteria.sortStatic("createTime.desc");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo - 1, pageSize, orders);
         //查询条件
         Criteria<MiningOrderDetail> specification = new Criteria<MiningOrderDetail>();
         specification.add(Restrictions.eq("memberId", memberId, false));
@@ -51,7 +51,7 @@ public class MiningOrderDetailService extends BaseService {
     public Page<MiningOrderDetail> findAllByMiningOrderId(Long miningOrderId, int pageNo, int pageSize) {
     	Sort orders = Criteria.sortStatic("createTime.desc");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo - 1, pageSize, orders);
         //查询条件
         Criteria<MiningOrderDetail> specification = new Criteria<MiningOrderDetail>();
         specification.add(Restrictions.eq("miningOrderId", miningOrderId, false));

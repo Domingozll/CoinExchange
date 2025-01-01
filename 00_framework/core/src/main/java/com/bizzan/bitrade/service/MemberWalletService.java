@@ -154,7 +154,7 @@ public class MemberWalletService extends BaseService {
 
         transaction = transactionService.save(transaction);
 
-        Member mRes = memberDao.findOne(wallet.getMemberId());
+        Member mRes = memberDao.findById(wallet.getMemberId()).orElse(null);
         if(mRes != null ) {
         	try {
 				smsProvider.sendCustomMessage(mRes.getMobilePhone(), "尊敬的用户：恭喜您充值"+ wallet.getCoin().getUnit() + "成功，充值数量为：" + amount.stripTrailingZeros().toPlainString());
@@ -204,7 +204,7 @@ public class MemberWalletService extends BaseService {
 
         transaction = transactionService.save(transaction);
 
-        Member mRes = memberDao.findOne(wallet.getMemberId());
+        Member mRes = memberDao.findById(wallet.getMemberId()).orElse(null);
         if(mRes != null ) {
         	try {
 				smsProvider.sendCustomMessage(mRes.getMobilePhone(), "尊敬的用户：恭喜您充值"+ wallet.getCoin().getUnit() + "成功，充值数量为：" + amount.stripTrailingZeros().toPlainString());
@@ -427,7 +427,7 @@ public class MemberWalletService extends BaseService {
     public MemberWallet findOneByCoinNameAndMemberId(String coinName, long memberId) {
         BooleanExpression and = QMemberWallet.memberWallet.coin.name.eq(coinName)
                 .and(QMemberWallet.memberWallet.memberId.eq(memberId));
-        return memberWalletDao.findOne(and);
+        return memberWalletDao.findOne(and).orElse(null);
     }
 
     public Page<MemberWalletDTO> joinFind(List<Predicate> predicates,QMember qMember ,QMemberWallet qMemberWallet,PageModel pageModel) {

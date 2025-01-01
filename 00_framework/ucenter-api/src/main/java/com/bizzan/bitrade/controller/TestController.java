@@ -1,12 +1,9 @@
 package com.bizzan.bitrade.controller;
 
-import com.bizzan.bitrade.controller.BaseController;
 import com.bizzan.bitrade.dto.SmsDTO;
 import com.bizzan.bitrade.service.MemberWalletService;
 import com.bizzan.bitrade.service.SmsService;
 import com.bizzan.bitrade.util.MessageResult;
-import com.netflix.discovery.converters.Auto;
-
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -103,7 +103,7 @@ public class MemberService extends BaseService {
      * @date 2019/12/25 18:42
      */
     public Member findOne(Long id) {
-        return memberDao.findOne(id);
+        return memberDao.findById(id).orElse(null);
     }
 
     /**
@@ -122,7 +122,7 @@ public class MemberService extends BaseService {
     
     public Page<Member> findPromotionMemberPage(Integer pageNo, Integer pageSize,Long id){
         Sort orders = Criteria.sortStatic("id");
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
 
         Criteria<Member> specification = new Criteria<Member>();
         specification.add(Restrictions.eq("inviterId", id, false));
@@ -138,7 +138,7 @@ public class MemberService extends BaseService {
         //排序方式 (需要倒序 这样    Criteria.sort("id","createTime.desc") ) //参数实体类为字段名
         Sort orders = Criteria.sortStatic("id");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         //查询条件
         Criteria<Member> specification = new Criteria<Member>();
         specification.add(Restrictions.eq("status", status, false));
@@ -149,7 +149,7 @@ public class MemberService extends BaseService {
         //排序方式 (需要倒序 这样    Criteria.sort("id","createTime.desc") ) //参数实体类为字段名
         Sort orders = Criteria.sortStatic("id");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         //查询条件
         Criteria<Member> specification = new Criteria<Member>();
         return memberDao.findAll(specification, pageRequest);

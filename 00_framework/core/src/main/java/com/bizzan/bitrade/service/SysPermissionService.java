@@ -29,7 +29,7 @@ public class SysPermissionService extends BaseService<SysPermission> {
     private SysPermissionDao sysPermissionDao;
 
     public SysPermission findOne(Long id) {
-        return sysPermissionDao.findOne(id);
+        return sysPermissionDao.findById(id).orElse(null);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SysPermissionService extends BaseService<SysPermission> {
     public void deletes(Long[] ids) {
         for (long id : ids) {
             sysPermissionDao.deletePermission(id);
-            sysPermissionDao.delete(id);
+            sysPermissionDao.deleteById(id);
         }
     }
 

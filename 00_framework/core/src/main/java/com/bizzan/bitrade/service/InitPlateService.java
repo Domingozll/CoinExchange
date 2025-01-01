@@ -30,13 +30,13 @@ public class InitPlateService extends BaseService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(long id){
-        initPlateDao.delete(id);
+        initPlateDao.deleteById(id);
     }
 
     public Page<InitPlate> findAllByPage(Criteria<InitPlate> specification, PageRequest pageRequest) {
         return initPlateDao.findAll(specification,pageRequest);
     }
     public InitPlate findByInitPlateId(long id){
-        return initPlateDao.findOne(id);
+        return initPlateDao.findById(id).orElse(null);
     }
 }

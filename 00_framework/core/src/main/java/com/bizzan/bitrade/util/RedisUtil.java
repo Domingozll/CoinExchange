@@ -6,10 +6,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @Description:
@@ -84,7 +86,8 @@ public class RedisUtil {
                 if(key.length==1){
                     redisTemplate.delete(key[0]);
                 }else{
-                    redisTemplate.delete(CollectionUtils.arrayToList(key));
+                    List<String> objects = (List<String>) CollectionUtils.arrayToList(key);
+                    redisTemplate.delete(objects);
                 }
             } finally {
                 RedisConnectionUtils.unbindConnection(redisTemplate.getConnectionFactory());

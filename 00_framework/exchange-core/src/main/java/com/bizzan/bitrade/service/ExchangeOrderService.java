@@ -144,8 +144,8 @@ public class ExchangeOrderService extends BaseService {
      * @return
      */
     public Page<ExchangeOrder> findHistory(Long uid, String symbol, int pageNo, int pageSize) {
-        Sort orders = new Sort(new Sort.Order(Sort.Direction.DESC, "time"));
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        Sort orders = Sort.by(new Sort.Order(Sort.Direction.DESC, "time"));
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         Criteria<ExchangeOrder> specification = new Criteria<ExchangeOrder>();
         specification.add(Restrictions.eq("symbol", symbol, true));
         specification.add(Restrictions.eq("memberId", uid, true));
@@ -184,8 +184,8 @@ public class ExchangeOrderService extends BaseService {
      * @return
      */
     public Page<ExchangeOrder> findPersonalHistory(Long uid, String symbol, ExchangeOrderType type, ExchangeOrderStatus status, String startTime, String endTime, ExchangeOrderDirection direction, int pageNo, int pageSize) {
-        Sort orders = new Sort(new Sort.Order(Sort.Direction.DESC, "time"));
-        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, orders);
+        Sort orders = Sort.by(new Sort.Order(Sort.Direction.DESC, "time"));
+        PageRequest pageRequest = PageRequest.of(pageNo - 1, pageSize, orders);
         Criteria<ExchangeOrder> specification = new Criteria<ExchangeOrder>();
         if(StringUtils.isNotEmpty(symbol)){
             specification.add(Restrictions.eq("symbol", symbol, true));
@@ -225,8 +225,8 @@ public class ExchangeOrderService extends BaseService {
      * @return
      */
     public Page<ExchangeOrder> findPersonalCurrent(Long uid, String symbol, ExchangeOrderType type, String startTime, String endTime, ExchangeOrderDirection direction, int pageNo, int pageSize) {
-        Sort orders = new Sort(new Sort.Order(Sort.Direction.DESC, "time"));
-        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, orders);
+        Sort orders = Sort.by(new Sort.Order(Sort.Direction.DESC, "time"));
+        PageRequest pageRequest = PageRequest.of(pageNo - 1, pageSize, orders);
         Criteria<ExchangeOrder> specification = new Criteria<ExchangeOrder>();
         if(StringUtils.isNotEmpty(symbol)){
             specification.add(Restrictions.eq("symbol", symbol, true));
@@ -255,8 +255,8 @@ public class ExchangeOrderService extends BaseService {
      * @return
      */
     public Page<ExchangeOrder> findCurrent(Long uid, String symbol, int pageNo, int pageSize) {
-        Sort orders = new Sort(new Sort.Order(Sort.Direction.DESC, "time"));
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        Sort orders = Sort.by(new Sort.Order(Sort.Direction.DESC, "time"));
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         Criteria<ExchangeOrder> specification = new Criteria<ExchangeOrder>();
         specification.add(Restrictions.eq("symbol", symbol, true));
         specification.add(Restrictions.eq("memberId", uid, false));
@@ -540,7 +540,7 @@ public class ExchangeOrderService extends BaseService {
     }
 
     public ExchangeOrder findOne(String id) {
-        return exchangeOrderRepository.findOne(id);
+        return exchangeOrderRepository.findById(id).orElse(null);
     }
 
     @Transactional(readOnly = true)
@@ -780,8 +780,8 @@ public class ExchangeOrderService extends BaseService {
      * @return
      */
     public Page<ExchangeOrder> findCurrentTradingOrderForApi(long memberId, String symbol, ExchangeOrderDirection direction, int pageNo, int pageSize) {
-        Sort orders = new Sort(new Sort.Order(Sort.Direction.DESC, "time"));
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        Sort orders = Sort.by(new Sort.Order(Sort.Direction.DESC, "time"));
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         Criteria<ExchangeOrder> specification = new Criteria<ExchangeOrder>();
         specification.add(Restrictions.eq("symbol", symbol, false));
         specification.add(Restrictions.eq("memberId", memberId, false));

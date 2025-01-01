@@ -40,7 +40,7 @@ public class AdminAccessLogService extends BaseService {
     }
 
     public AdminAccessLog queryById(Long id) {
-        return adminAccessLogDao.findOne(id);
+        return adminAccessLogDao.findById(id).orElse(null);
     }
 
     @Transactional(readOnly = true)

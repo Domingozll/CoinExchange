@@ -22,7 +22,7 @@ public class LockedOrderService  extends BaseService {
     private LockedOrderDao lockedOrderDao;
 
     public LockedOrder findOne(Long id) {
-        return lockedOrderDao.findOne(id);
+        return lockedOrderDao.findById(id).orElse(null);
     }
 
     public LockedOrder save(LockedOrder lockedOrder) {
@@ -56,7 +56,7 @@ public class LockedOrderService  extends BaseService {
     public Page<LockedOrder> findAllByMemberIdPage(Long memberId, int pageNo, int pageSize){
         Sort orders = Criteria.sortStatic("createTime.desc");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo - 1, pageSize, orders);
         //查询条件
         Criteria<LockedOrder> specification = new Criteria<LockedOrder>();
         specification.add(Restrictions.eq("memberId", memberId, false));

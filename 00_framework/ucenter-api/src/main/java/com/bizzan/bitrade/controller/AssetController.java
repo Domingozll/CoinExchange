@@ -1,20 +1,20 @@
 package com.bizzan.bitrade.controller;
 
 
-import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
-import static org.springframework.util.Assert.hasText;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import com.bizzan.bitrade.constant.WalletType;
-import com.bizzan.bitrade.entity.*;
+import com.alibaba.fastjson.JSONObject;
+import com.bizzan.bitrade.constant.TransactionType;
+import com.bizzan.bitrade.entity.Member;
+import com.bizzan.bitrade.entity.MemberWallet;
+import com.bizzan.bitrade.entity.QuickExchange;
+import com.bizzan.bitrade.entity.transform.AuthMember;
+import com.bizzan.bitrade.es.ESUtils;
 import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.system.CoinExchangeFactory;
+import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.Md5;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import com.bizzan.bitrade.util.MessageResult;
+import com.sparkframework.lang.Convert;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,23 +23,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
-
-import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bitrade.constant.TransactionType;
-import com.bizzan.bitrade.entity.transform.AuthMember;
-import com.bizzan.bitrade.es.ESUtils;
-import com.bizzan.bitrade.system.CoinExchangeFactory;
-import com.bizzan.bitrade.util.DateUtil;
-import com.bizzan.bitrade.util.MessageResult;
-import com.sparkframework.lang.Convert;
-
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
+import static org.springframework.util.Assert.hasText;
 
 @RestController
 @RequestMapping("/asset")

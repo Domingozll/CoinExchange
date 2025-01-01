@@ -6,12 +6,9 @@ import com.bizzan.bitrade.entity.MemberWeightUpper;
 import com.bizzan.bitrade.pagination.Criteria;
 import com.bizzan.bitrade.pagination.Restrictions;
 import com.bizzan.bitrade.service.Base.BaseService;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.Visitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class MemberWeightUpperService extends BaseService {
     public MemberWeightUpper findMemberWeightUpperByMemberId(Long memberId) {
         Criteria<MemberWeightUpper> specification = new Criteria<MemberWeightUpper>();
         specification.add(Restrictions.eq("memberId", memberId, false));
-        return memberWeightUpperDao.findOne(specification);
+        return memberWeightUpperDao.findOne(specification).orElse(null);
     }
 
     public List<MemberWeightUpper> findAllByUpperIds(String uppers) {

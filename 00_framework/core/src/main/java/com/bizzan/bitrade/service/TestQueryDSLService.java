@@ -46,7 +46,7 @@ public class TestQueryDSLService extends BaseService {
         Predicate predicate = qAdvertise.id.gt(1);
         //分页排序
         Sort orders = Criteria.sortStatic("id");
-        PageRequest pageRequest = new PageRequest(page-1, 10, orders);
+        PageRequest pageRequest = PageRequest.of(page-1, 10, orders);
         //Page<Advertise> all = advertiseDao.findAll(predicate, pageRequest);
         return advertiseDao.findAll(predicate,pageRequest);
     }

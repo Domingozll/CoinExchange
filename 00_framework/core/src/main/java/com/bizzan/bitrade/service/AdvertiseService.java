@@ -103,7 +103,7 @@ public class AdvertiseService extends BaseService {
     }
 
     public Advertise findOne(Long id) {
-        return advertiseDao.findOne(id);
+        return advertiseDao.findById(id).orElse(null);
     }
 
     public MemberAdvertiseDetail findOne(Long id, Long memberId) {
@@ -222,7 +222,7 @@ public class AdvertiseService extends BaseService {
                         try {
                             List<Map<String, String>> mapList = DB.query(sql, x.get("price"), x.get("price"), type.ordinal(), otcCoin.getId());
                             if (mapList.size() > 0) {
-                                Advertise advertise = advertiseDao.findOne(Long.valueOf(mapList.get(0).get("advertise_id")));
+                                Advertise advertise = advertiseDao.findById(Long.valueOf(mapList.get(0).get("advertise_id"))).orElse(null);
                                 Member member = advertise.getMember();
                                 excellents.add(ScanAdvertise
                                         .builder()
@@ -328,8 +328,8 @@ public class AdvertiseService extends BaseService {
     public Page<ScanAdvertise> paginationQuery(int pageNo, int pageSize, String country, String payMode, AdvertiseType advertiseType, Currency currency) {
         Sort.Order order1 = new Sort.Order(Sort.Direction.ASC, "price");
         Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "id");
-        Sort sort = new Sort(order1, order2);
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, sort);
+        Sort sort = Sort.by(order1, order2);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, sort);
         Specification<Advertise> specification = (root, criteriaQuery, criteriaBuilder) -> {
             Path<String> country1 = root.get("country");
             Path<String> payMode1 = root.get("payMode");

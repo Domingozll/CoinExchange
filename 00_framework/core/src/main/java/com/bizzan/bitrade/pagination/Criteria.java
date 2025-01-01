@@ -45,7 +45,7 @@ public class Criteria<T> implements Specification<T> {
         for(String f:fields) {
             orders.add(generateOrderStatic(f));
         }
-        return new Sort(orders);
+        return Sort.by(orders);
     }
 
     public static Sort sortStatic(String... fields) {
@@ -53,7 +53,7 @@ public class Criteria<T> implements Specification<T> {
         for(String f:fields) {
             orders.add(generateOrderStatic(f));
         }
-        return new Sort(orders);
+        return Sort.by(orders);
     }
 
     private static Sort.Order generateOrderStatic(String f) {
@@ -67,7 +67,7 @@ public class Criteria<T> implements Specification<T> {
             }
             return order;
         }
-        order = new Sort.Order(f);
+        order = Sort.Order.by(f);
         return order;
     }
 

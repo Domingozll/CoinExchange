@@ -51,13 +51,13 @@ public class SysHelpService extends BaseService {
     }
 
     public SysHelp findOne(Long id) {
-        return sysHelpDao.findOne(id);
+        return sysHelpDao.findById(id).orElse(null);
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void deleteBatch(Long[] ids) {
         for (Long id : ids) {
-            sysHelpDao.delete(id);
+            sysHelpDao.deleteById(id);
         }
     }
 
@@ -102,8 +102,8 @@ public class SysHelpService extends BaseService {
      * @return
      */
     public Page<SysHelp> findByCondition(int pageNo,int pageSize,SysHelpClassification cate, String lang){
-        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "sort"));
-        Pageable pageable = new PageRequest(pageNo - 1, pageSize, sort);
+        Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "sort"));
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         Specification specification = new Specification() {
             List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 
@@ -123,8 +123,8 @@ public class SysHelpService extends BaseService {
 
 
     public Page<SysHelp> findByCate(int pageNo,int pageSize,String cate){
-        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "sort"));
-        Pageable pageable = new PageRequest(pageNo - 1, pageSize, sort);
+        Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "sort"));
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         Specification specification = new Specification() {
             List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 

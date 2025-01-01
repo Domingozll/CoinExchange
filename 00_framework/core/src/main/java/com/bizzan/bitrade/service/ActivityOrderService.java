@@ -38,7 +38,7 @@ public class ActivityOrderService extends BaseService {
     private MemberWalletService walletService;
 	
 	public ActivityOrder findOne(Long id) {
-		return activityOrderDao.findOne(id);
+		return activityOrderDao.findById(id).orElse(null);
 	}
 	
     public ActivityOrder save(ActivityOrder activity) {
@@ -50,7 +50,7 @@ public class ActivityOrderService extends BaseService {
     }
     
     public ActivityOrder findById(Long id) {
-        return activityOrderDao.findOne(id);
+        return activityOrderDao.findById(id).orElse(null);
     }
     
     public Page<ActivityOrder> findAll(Predicate predicate, Pageable pageable){
@@ -60,7 +60,7 @@ public class ActivityOrderService extends BaseService {
     public Page<ActivityOrder> finaAllByMemberId(Long memberId, int pageNo, int pageSize){
     	Sort orders = Criteria.sortStatic("createTime.desc");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo - 1, pageSize, orders);
         //查询条件
         Criteria<ActivityOrder> specification = new Criteria<ActivityOrder>();
         specification.add(Restrictions.eq("memberId", memberId, false));

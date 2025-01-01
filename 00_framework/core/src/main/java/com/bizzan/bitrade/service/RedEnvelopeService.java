@@ -38,7 +38,7 @@ public class RedEnvelopeService extends BaseService {
 		return redEnvelopeDao.findAllByState(state);
 	}
 	public RedEnvelope findOne(Long id) {
-		return redEnvelopeDao.findOne(id);
+		return redEnvelopeDao.findById(id).orElse(null);
 	}
 	
     public RedEnvelope save(RedEnvelope envelope) {
@@ -50,7 +50,7 @@ public class RedEnvelopeService extends BaseService {
     }
     
     public RedEnvelope findById(Long id) {
-        return redEnvelopeDao.findOne(id);
+        return redEnvelopeDao.findById(id).orElse(null);
     }
     
     public Page<RedEnvelope> findAll(Predicate predicate, Pageable pageable){
@@ -60,7 +60,7 @@ public class RedEnvelopeService extends BaseService {
     public Page<RedEnvelope> findByMember(Long memberId, int pageNo, int pageSize){
         Sort orders = Criteria.sortStatic("createTime.desc");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         //查询条件
         Criteria<RedEnvelope> specification = new Criteria<RedEnvelope>();
         specification.add(Restrictions.eq("memberId", memberId, false));

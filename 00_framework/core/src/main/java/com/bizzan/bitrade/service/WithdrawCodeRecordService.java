@@ -67,7 +67,7 @@ public class WithdrawCodeRecordService extends BaseService {
     }
 
     public WithdrawCodeRecord findOne(Long id) {
-        return withdrawApplyDao.findOne(id);
+        return withdrawApplyDao.findById(id).orElse(null);
     }
 
     /**
@@ -166,7 +166,7 @@ public class WithdrawCodeRecordService extends BaseService {
     @Transactional(readOnly = true)
     public Page<WithdrawCodeRecord> findAllByMemberId(Long memberId, int page, int pageSize) {
         Sort orders = Criteria.sortStatic("id.desc");
-        PageRequest pageRequest = new PageRequest(page, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(page, pageSize, orders);
         Criteria<WithdrawCodeRecord> specification = new Criteria<WithdrawCodeRecord>();
         specification.add(Restrictions.eq("memberId", memberId, false));
         return withdrawApplyDao.findAll(specification, pageRequest);

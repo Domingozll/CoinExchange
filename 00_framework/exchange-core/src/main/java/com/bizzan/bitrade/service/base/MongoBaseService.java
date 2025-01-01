@@ -13,6 +13,7 @@ import com.bizzan.bitrade.dto.Pagenation;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -31,7 +32,10 @@ public class MongoBaseService<T> {
      */
     public Pagenation page(PageParam pageParam , Query query, Class<T> cla, String collectionName ){
         if(pageParam.getOrders()!=null&&pageParam.getDirection()!=null) {
-            query.with(new Sort(pageParam.getDirection(),pageParam.getOrders()));
+            List<Sort.Order> orders = pageParam.getOrders().stream().map(data->{
+                return new Sort.Order(pageParam.getDirection(),data);
+            }).collect(Collectors.toList());
+            query.with(Sort.by(orders));
         }
         long total  = mongoTemplate.count(query,cla,collectionName);
         query.limit(pageParam.getPageSize()).skip((pageParam.getPageNo()-1)*pageParam.getPageSize());

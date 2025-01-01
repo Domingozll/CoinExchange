@@ -82,7 +82,7 @@ public class MemberTransactionService extends BaseService {
 
 
     public MemberTransaction findOne(Long id) {
-        return transactionDao.findOne(id);
+        return transactionDao.findById(id).orElse(null);
     }
 
 
@@ -122,7 +122,7 @@ public class MemberTransactionService extends BaseService {
         //排序方式 (需要倒序 这样    Criteria.sort("id","createTime.desc") ) //参数实体类为字段名
         Sort orders = Criteria.sortStatic("createTime.desc");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         //查询条件
         Criteria<MemberTransaction> specification = new Criteria<MemberTransaction>();
         specification.add(Restrictions.eq("memberId", uid, false));
@@ -134,7 +134,7 @@ public class MemberTransactionService extends BaseService {
         //排序方式 (需要倒序 这样    Criteria.sort("id","createTime.desc") ) //参数实体类为字段名
         Sort orders = Criteria.sortStatic("createTime.desc");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo-1, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize, orders);
         //查询条件
         Criteria<MemberTransaction> specification = new Criteria<MemberTransaction>();
         specification.add(Restrictions.eq("memberId", uid, false));

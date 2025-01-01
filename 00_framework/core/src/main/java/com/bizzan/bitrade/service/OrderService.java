@@ -121,7 +121,7 @@ public class OrderService extends BaseService {
     }
 
     public Order findOne(Long id) {
-        return orderDao.findOne(id);
+        return orderDao.findById(id).orElse(null);
     }
 
     public Order findOneByOrderSn(String orderSn) {
@@ -170,7 +170,7 @@ public class OrderService extends BaseService {
 
     public Page<Order> pageQuery(int pageNo, Integer pageSize, OrderStatus status, long id, String orderSn) {
         Sort orders = Criteria.sortStatic("id.desc");
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         Criteria<Order> specification = new Criteria<Order>();
         specification.add(Restrictions.or(Restrictions.eq("memberId", id, false), Restrictions.eq("customerId", id, false)));
         specification.add(Restrictions.eq("status", status, false));

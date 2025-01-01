@@ -29,7 +29,7 @@ public class CtcOrderService extends BaseService {
     private CtcOrderDao ctcOrderDao;
 	
 	public CtcOrder findOne(Long id) {
-		return ctcOrderDao.findOne(id);
+		return ctcOrderDao.findById(id).orElse(null);
 	}
 	
     public CtcOrder save(CtcOrder order) {
@@ -49,7 +49,7 @@ public class CtcOrderService extends BaseService {
     }
     
     public CtcOrder findById(Long id) {
-        return ctcOrderDao.findOne(id);
+        return ctcOrderDao.findById(id).orElse(null);
     }
     
     public List<CtcOrder> findAllByIdAndMember(Long id, Member member) {
@@ -64,7 +64,7 @@ public class CtcOrderService extends BaseService {
     	//排序方式 (需要倒序 这样    Criteria.sort("id","createTime.desc") ) //参数实体类为字段名
         Sort orders = Criteria.sortStatic("createTime.desc");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo-1, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize, orders);
         //查询条件
         Criteria<CtcOrder> specification = new Criteria<CtcOrder>();
 

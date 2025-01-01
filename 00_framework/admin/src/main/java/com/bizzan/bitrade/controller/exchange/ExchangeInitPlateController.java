@@ -48,7 +48,7 @@ public class ExchangeInitPlateController {
         MessageResult mr =new MessageResult();
         try {
             Sort orders = Criteria.sortStatic("id");
-            PageRequest pageRequest = new PageRequest(pageNo-1, pageSize, orders);
+            PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize, orders);
 
             Criteria<InitPlate> specification = new Criteria<InitPlate>();
             if(StringUtils.isNotEmpty(symbol)){

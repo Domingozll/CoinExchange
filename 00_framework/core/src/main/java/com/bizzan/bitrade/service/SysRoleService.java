@@ -49,7 +49,7 @@ public class SysRoleService extends TopBaseService<SysRole, SysRoleDao> {
     private SysPermissionDao sysPermissionDao;
 
     public SysRole findOne(Long id) {
-        SysRole role = sysRoleDao.findOne(id);
+        SysRole role = sysRoleDao.findById(id).orElse(null);
         return role;
     }
 
@@ -65,7 +65,7 @@ public class SysRoleService extends TopBaseService<SysRole, SysRoleDao> {
         if (list != null && list.size() > 0) {
             return MessageResult.error(msService.getMessage("FAIL"));
         }
-        sysRoleDao.delete(id);
+        sysRoleDao.deleteById(id);
         return MessageResult.success(msService.getMessage("SUCCESS"));
     }
 

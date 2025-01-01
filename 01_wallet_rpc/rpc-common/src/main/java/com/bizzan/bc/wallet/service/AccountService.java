@@ -124,7 +124,7 @@ public class AccountService {
     public long count(){
         Query query = new Query();
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "_id");
-        Sort sort = new Sort(order);
+        Sort sort = Sort.by(order);
         query.with(sort);
         return mongoTemplate.count(query,getCollectionName());
     }
@@ -137,8 +137,8 @@ public class AccountService {
      */
     public List<Account> find(int pageNo,int pageSize){
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "_id");
-        Sort sort = new Sort(order);
-        PageRequest page = new PageRequest(pageNo, pageSize, sort);
+        Sort sort = Sort.by(order);
+        PageRequest page = PageRequest.of(pageNo, pageSize, sort);
         Query query = new Query();
         query.with(page);
         return mongoTemplate.find(query,Account.class,getCollectionName());
@@ -154,7 +154,7 @@ public class AccountService {
         Query query = new Query();
         Criteria criteria = Criteria.where("balance").gte(minAmount);
         query.addCriteria(criteria);
-        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "balance"));
+        Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "balance"));
         query.with(sort);
         return mongoTemplate.find(query, Account.class, getCollectionName());
     }
@@ -170,7 +170,7 @@ public class AccountService {
         Criteria criteria = Criteria.where("balance").gte(minAmount);
         criteria.andOperator(Criteria.where("gas").gte(gasLimit));
         query.addCriteria(criteria);
-        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "balance"));
+        Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "balance"));
         query.with(sort);
         return mongoTemplate.find(query, Account.class, getCollectionName());
     }

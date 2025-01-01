@@ -47,7 +47,7 @@ public class MemberBonusService extends BaseService<MemberBonusDTO> {
     //通过memberId进行查询并分页
     public Page<MemberBonusDTO> getBonusByMemberIdPage(long memberId, Integer pageNo, Integer pageSize) {
         Sort orders = Criteria.sortStatic("id.desc");
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         Criteria<MemberBonusDTO> criteria = new Criteria<MemberBonusDTO>();
         criteria.add(Restrictions.eq("memberId",memberId,false));
         return memberBonusDao.findAll(criteria,pageRequest);
@@ -55,7 +55,7 @@ public class MemberBonusService extends BaseService<MemberBonusDTO> {
 
     public  Page<MemberBonusDTO> getMemberBounsPage(Integer pageNo,Integer pageSize){
         Sort orders =Criteria.sortStatic("id.desc");
-        PageRequest pageRequest=new PageRequest(pageNo,pageSize,orders);
+        PageRequest pageRequest=PageRequest.of(pageNo,pageSize,orders);
         return  memberBonusDao.findAll(pageRequest);
     }
 }

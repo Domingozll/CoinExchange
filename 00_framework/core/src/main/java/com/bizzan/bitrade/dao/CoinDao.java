@@ -3,7 +3,7 @@ package com.bizzan.bitrade.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2019/12/29 14:41
  */
 @Repository
-public interface CoinDao extends JpaRepository<Coin, String>, JpaSpecificationExecutor<Coin>, QueryDslPredicateExecutor<Coin> {
+public interface CoinDao extends JpaRepository<Coin, String>, JpaSpecificationExecutor<Coin>, QuerydslPredicateExecutor<Coin> {
     Coin findByUnit(String unit);
 
     List<Coin> findAllByCanWithdrawAndStatusAndHasLegal(BooleanEnum is, CommonStatus status, boolean hasLegal);

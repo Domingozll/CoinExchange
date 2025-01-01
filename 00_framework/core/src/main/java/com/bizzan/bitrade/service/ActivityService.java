@@ -24,7 +24,7 @@ public class ActivityService extends BaseService {
     private ActivityDao activityDao;
 	
 	public Activity findOne(Long id) {
-		return activityDao.findOne(id);
+		return activityDao.findById(id).orElse(null);
 	}
 	
     public Activity save(Activity activity) {
@@ -36,7 +36,7 @@ public class ActivityService extends BaseService {
     }
     
     public Activity findById(Long id) {
-        return activityDao.findOne(id);
+        return activityDao.findById(id).orElse(null);
     }
     
     public Page<Activity> findAll(Predicate predicate, Pageable pageable){
@@ -46,7 +46,7 @@ public class ActivityService extends BaseService {
 	public Page<Activity> queryByStep(int pageNo, int pageSize, int step) {
         Sort orders = Criteria.sortStatic("createTime.desc");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo - 1, pageSize, orders);
         //查询条件
         Criteria<Activity> specification = new Criteria<Activity>();
         if(step != -1) {

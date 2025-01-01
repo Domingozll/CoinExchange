@@ -6,10 +6,10 @@ import com.bizzan.bitrade.entity.Advertise;
 import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.service.AdvertiseService;
 import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.test.BaseTest;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import java.util.Date;
 
@@ -18,7 +18,7 @@ import java.util.Date;
  * @create 2018年12月07日
  * @desc
  */
-public class AdvertiseServiceTest extends BaseTest {
+public class AdvertiseServiceTest extends AbstractJUnit4SpringContextTests {
     @Autowired
     private AdvertiseService advertiseService;
     @Autowired

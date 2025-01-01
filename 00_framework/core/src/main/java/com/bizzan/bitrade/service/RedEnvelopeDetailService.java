@@ -32,7 +32,7 @@ public class RedEnvelopeDetailService extends BaseService{
 	}
 	
 	public RedEnvelopeDetail findOne(Long id) {
-		return redEnvelopeDetailDao.findOne(id);
+		return redEnvelopeDetailDao.findById(id).orElse(null);
 	}
 	
     public RedEnvelopeDetail save(RedEnvelopeDetail detail) {
@@ -44,7 +44,7 @@ public class RedEnvelopeDetailService extends BaseService{
     }
     
     public RedEnvelopeDetail findById(Long id) {
-        return redEnvelopeDetailDao.findOne(id);
+        return redEnvelopeDetailDao.findById(id).orElse(null);
     }
     
     public Page<RedEnvelopeDetail> findAll(Predicate predicate, Pageable pageable){
@@ -55,7 +55,7 @@ public class RedEnvelopeDetailService extends BaseService{
     	//排序方式 (需要倒序 这样    Criteria.sort("id","createTime.desc") ) //参数实体类为字段名
         Sort orders = Criteria.sortStatic("createTime.desc");
         //分页参数
-        PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, orders);
         //查询条件
         Criteria<RedEnvelopeDetail> specification = new Criteria<RedEnvelopeDetail>();
         specification.add(Restrictions.eq("envelopeId", envelopeId, false));
