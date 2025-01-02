@@ -7,12 +7,17 @@ spring:
     name: uc
   profiles:
     active: dev
-  cloud: #nacos地址 这里将会从nacos远程拉取配置信息
+  cloud:
     nacos:
       server-addr: 192.168.1.110:8848
       config:
         file-extension: yaml
-logback:
-  path: ./logs
-logging:
-  config: classpath:logback-spring.xml
+        shared-configs[0]:
+          data-id: common.yaml
+          refresh: true
+        shared-configs[1]:
+          data-id: kafka.yaml
+          refresh: true
+        shared-configs[2]:
+          data-id: mail.yaml
+          refresh: true

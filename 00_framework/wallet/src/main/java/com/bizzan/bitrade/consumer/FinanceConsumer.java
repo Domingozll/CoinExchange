@@ -1,6 +1,5 @@
 package com.bizzan.bitrade.consumer;
 
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bizzan.bitrade.constant.BooleanEnum;
@@ -13,7 +12,7 @@ import com.bizzan.bitrade.service.MemberService;
 import com.bizzan.bitrade.service.MemberWalletService;
 import com.bizzan.bitrade.service.WithdrawRecordService;
 import com.bizzan.bitrade.util.MessageResult;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
