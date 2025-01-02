@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 @EnableDiscoveryClient
-//@EnableEurekaClient
 public class ExchangeApiApplication {
 
     public static void main(String[] args){

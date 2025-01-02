@@ -30,7 +30,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     /**
      * 缓存管理器.
      *
-     * @param redisTemplate
+     * @param redisConnectionFactory
      * @return
      */
     @Bean
