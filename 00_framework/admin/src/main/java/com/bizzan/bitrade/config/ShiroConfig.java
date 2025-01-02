@@ -1,5 +1,9 @@
 package com.bizzan.bitrade.config;
 
+import com.bizzan.bitrade.core.AdminRealm;
+import com.bizzan.bitrade.service.AdminService;
+import com.bizzan.bitrade.service.SysPermissionService;
+import com.bizzan.bitrade.service.SysRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
@@ -7,19 +11,12 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.filter.mgt.DefaultFilter;
-import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.web.filter.DelegatingFilterProxy;
-
-import com.bizzan.bitrade.core.AdminRealm;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -39,8 +36,7 @@ public class ShiroConfig {
      * @return
      */
 
-    @Bean(name="shiroFilter")
-    @DependsOn({"securityManager"})
+    @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         log.info("ShiroConfiguration.shirFilter()");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -61,15 +57,15 @@ public class ShiroConfig {
 
     /**
      * Shiro生命周期处理器
-     *
-     *   /*1.LifecycleBeanPostProcessor，这是个DestructionAwareBeanPostProcessor的子类，
-     *   负责org.apache.shiro.util.Initializable类型bean的生命周期的，初始化和销毁。
-     *   主要是AuthorizingRealm类的子类，以及EhCacheManager类。
+     * <p>
+     * /*1.LifecycleBeanPostProcessor，这是个DestructionAwareBeanPostProcessor的子类，
+     * 负责org.apache.shiro.util.Initializable类型bean的生命周期的，初始化和销毁。
+     * 主要是AuthorizingRealm类的子类，以及EhCacheManager类。
      *
      * @return
      */
     @Bean(name = "lifecycleBeanPostProcessor")
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         LifecycleBeanPostProcessor lifecycleBeanPostProcessor = new LifecycleBeanPostProcessor();
         return lifecycleBeanPostProcessor;
     }
@@ -82,8 +78,7 @@ public class ShiroConfig {
      *
      * @return
      */
-    @Bean(name="ehCacheManager")
-    @DependsOn("lifecycleBeanPostProcessor")
+    @Bean(name = "ehCacheManager")
     public EhCacheManager ehCacheManager() {
         log.info("ShiroConfiguration.getEhCacheManager()");
         EhCacheManager cacheManager = new EhCacheManager();
@@ -91,10 +86,9 @@ public class ShiroConfig {
         return cacheManager;
     }
 
-    @Bean(name="adminRealm")
-    @DependsOn("lifecycleBeanPostProcessor")
-    public AdminRealm adminRealm(EhCacheManager ehCacheManager) {
-        AdminRealm adminRealm = new AdminRealm() ;
+    @Bean(name = "adminRealm")
+    public AdminRealm adminRealm(EhCacheManager ehCacheManager, SysRoleService sysRoleService, AdminService adminService, SysPermissionService sysPermissionService) {
+        AdminRealm adminRealm = new AdminRealm(sysRoleService, adminService, sysPermissionService);
         //为确保密码安全，可以定义hash算法，（此处未做任何hash，直接用密码匹配）
         /*HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
         matcher.setHashAlgorithmName("SHA-1");
@@ -107,44 +101,44 @@ public class ShiroConfig {
 
     /**
      * 设置rememberMe  Cookie 7天
+     *
      * @return
      */
-    @Bean(name="simpleCookie")
-    public SimpleCookie getSimpleCookie(){
+    @Bean(name = "simpleCookie")
+    public SimpleCookie getSimpleCookie() {
         SimpleCookie simpleCookie = new SimpleCookie();
         simpleCookie.setName("rememberMe");
         simpleCookie.setHttpOnly(true);
-        simpleCookie.setMaxAge(7*24*60*60);
-        return simpleCookie ;
+        simpleCookie.setMaxAge(7 * 24 * 60 * 60);
+        return simpleCookie;
     }
 
     /**
      * cookie 管理器
+     *
      * @return
      */
-    @Bean(name="cookieRememberMeManager")
-    @DependsOn({"simpleCookie"})
-    public CookieRememberMeManager getCookieRememberMeManager(SimpleCookie simpleCookie){
+    @Bean(name = "cookieRememberMeManager")
+    public CookieRememberMeManager getCookieRememberMeManager(SimpleCookie simpleCookie) {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(simpleCookie);
         /**
          * 设置 rememberMe cookie 的密钥 ，不设置 很可能：javax.crypto.BadPaddingException: Given final block not properly padded
          */
         cookieRememberMeManager.setCipherKey(Base64.decode("2AvVhdsgUs0FSA3SDFAdag=="));
-        return cookieRememberMeManager ;
+        return cookieRememberMeManager;
     }
 
     /**
-     * @DependOn  :在初始化 defaultWebSecurityManager 实例前 强制先初始化 adminRealm ，ehCacheManager。。。。。
      * @param realm
      * @param ehCacheManager
      * @param cookieRememberMeManager
      * @return
+     * @DependOn :在初始化 defaultWebSecurityManager 实例前 强制先初始化 adminRealm ，ehCacheManager。。。。。
      */
 
     @Bean(name = "securityManager")
-    @DependsOn({"adminRealm","ehCacheManager","cookieRememberMeManager"})
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(AdminRealm realm, EhCacheManager ehCacheManager,CookieRememberMeManager cookieRememberMeManager) {
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(AdminRealm realm, EhCacheManager ehCacheManager, CookieRememberMeManager cookieRememberMeManager) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         //设置realm.
         defaultWebSecurityManager.setRealm(realm);
@@ -161,10 +155,10 @@ public class ShiroConfig {
 
     /**
      * 由Advisor决定对哪些类的方法进行AOP代理。
+     *
      * @return
      */
     @Bean
-    @DependsOn("lifecycleBeanPostProcessor")
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator defaultAAP = new DefaultAdvisorAutoProxyCreator();
         defaultAAP.setProxyTargetClass(true);
@@ -172,7 +166,6 @@ public class ShiroConfig {
     }
 
     @Bean
-    @DependsOn("securityManager")
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);

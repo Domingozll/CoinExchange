@@ -22,13 +22,13 @@ public class KafkaConsumerConfiguration {
 
 	@Value("${spring.kafka.bootstrap-servers}")
 	private String servers;
-	@Value("${spring.kafka.consumer.enable.auto.commit}")
+	@Value("${spring.kafka.consumer.enable.auto-commit}")
 	private boolean enableAutoCommit;
 	@Value("${spring.kafka.consumer.session.timeout}")
 	private String sessionTimeout;
 	@Value("${spring.kafka.consumer.auto.commit.interval}")
 	private String autoCommitInterval;
-	@Value("${spring.kafka.consumer.group.id}")
+	@Value("${spring.kafka.consumer.group-id}")
 	private String groupId;
 	@Value("${spring.kafka.consumer.auto.offset.reset}")
 	private String autoOffsetReset;

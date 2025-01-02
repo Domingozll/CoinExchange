@@ -1,23 +1,5 @@
 package com.bizzan.bitrade.core;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.authc.credential.CredentialsMatcher;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
-
 import com.bizzan.bitrade.constant.CommonStatus;
 import com.bizzan.bitrade.constant.SysConstant;
 import com.bizzan.bitrade.entity.Admin;
@@ -26,10 +8,21 @@ import com.bizzan.bitrade.entity.SysRole;
 import com.bizzan.bitrade.service.AdminService;
 import com.bizzan.bitrade.service.SysPermissionService;
 import com.bizzan.bitrade.service.SysRoleService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,15 +32,12 @@ import java.util.List;
  * @date 2020年12月18日
  */
 @Slf4j
-@Component(value = "realm")
+@RequiredArgsConstructor
 public class AdminRealm extends AuthorizingRealm {
 
-    @Resource
-    private SysRoleService sysRoleService;
-    @Resource
-    private AdminService adminService;
-    @Resource
-    private SysPermissionService sysPermissionService;
+    private final SysRoleService sysRoleService;
+    private final AdminService adminService;
+    private final SysPermissionService sysPermissionService;
 
     /**
      * 授权

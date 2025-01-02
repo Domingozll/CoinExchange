@@ -10,7 +10,6 @@ import com.bizzan.bitrade.entity.SysRole;
 import com.bizzan.bitrade.service.Base.TopBaseService;
 import com.bizzan.bitrade.util.MessageResult;
 import com.querydsl.core.types.Predicate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,11 +27,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SysRoleService extends TopBaseService<SysRole, SysRoleDao> {
-    @Autowired
-    private LocaleMessageSourceService msService;
 
     @Autowired
-    private AdminService adminService;
+    private LocaleMessageSourceService msService;
 
     @Override
     @Autowired

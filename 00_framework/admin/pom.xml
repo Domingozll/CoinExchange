@@ -21,15 +21,6 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
-        <!-- <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency> -->
-        <!-- <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-ribbon</artifactId>
-        </dependency> -->
-
 		<!-- 发送邮件. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -53,29 +44,11 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!--mongodb 替换为1.10.10.RELEASE版本，否则聚合查询出问题-->
        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-data-mongodb</artifactId>
-                    <groupId>org.springframework.data</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
-        <dependency>
-            <artifactId>spring-data-mongodb</artifactId>
-            <groupId>org.springframework.data</groupId>
-            <version>1.10.10.RELEASE</version>
-            <!--排除autoConfig-->
-            <exclusions>
-                <exclusion>
-                    <groupId>org.mongodb</groupId>
-                    <artifactId>mongo-java-driver</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
