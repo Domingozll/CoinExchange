@@ -18,7 +18,7 @@ public class DataDictionarySaveUpdateConsumer {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @KafkaListener(topics = "data-dictionary-save-update", group = "group-handle")
+    @KafkaListener(topics = "data-dictionary-save-update", groupId = "group-handle")
     public void handelDataDictionarySaveUpdate(List<ConsumerRecord<String,String>> records){
         for (int i = 0; i < records.size(); i++) {
             ConsumerRecord<String, String> record = records.get(i);

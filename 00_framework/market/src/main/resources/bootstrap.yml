@@ -1,0 +1,28 @@
+spring:
+  main:
+    allow-circular-references: true
+  devtools:
+    add-properties: false
+  application:
+    name: bitrade-market
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 192.168.1.110:8848
+      config:
+        file-extension: yaml
+        shared-configs[0]:
+          data-id: common.yaml
+          refresh: true
+        shared-configs[1]:
+          data-id: kafka.yaml
+          refresh: true
+        shared-configs[2]:
+          data-id: mail.yaml
+          refresh: true
+
+# 二级推荐人币币手续费佣金是否发放
+second:
+  referrer:
+    award: true
