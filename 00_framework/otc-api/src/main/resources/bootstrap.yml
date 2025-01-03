@@ -1,0 +1,33 @@
+spring:
+  main:
+    allow-circular-references: true
+  #热更新
+  devtools:
+    add-properties: false
+  application:
+    name: otc-api
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 192.168.1.110:8848
+      config:
+        file-extension: yaml
+        shared-configs[0]:
+          data-id: common.yaml
+          refresh: true
+        shared-configs[1]:
+          data-id: kafka.yaml
+          refresh: true
+        shared-configs[2]:
+          data-id: mail.yaml
+          refresh: true
+
+#Actuator监控配置（可选）
+management:
+  context-path: ${management.context-path}
+  security:
+    enabled: ${management.security.enabled:false}
+    user:
+      name: ${security.user.name}
+      password: ${security.user.password}

@@ -36,9 +36,9 @@ public class OrderEvent {
     private CoinExchangeFactory coins;
 
     public void onOrderCompleted(Order order) {
-        Member member = memberDao.findOne(order.getMemberId());
+        Member member = memberDao.findById(order.getMemberId()).orElse(null);
         member.setTransactions(member.getTransactions() + 1);
-        Member member1 = memberDao.findOne(order.getCustomerId());
+        Member member1 = memberDao.findById(order.getCustomerId()).orElse(null);
         member1.setTransactions(member1.getTransactions() + 1);
         RewardPromotionSetting rewardPromotionSetting = rewardPromotionSettingService.findByType(PromotionRewardType.TRANSACTION);
         if (rewardPromotionSetting != null && coins.get("USDT").compareTo(BigDecimal.ZERO) > 0) {
@@ -49,7 +49,7 @@ public class OrderEvent {
                         //if (x.getInviterId() != null&&!(DateUtil.diffDays(new Date(), x.getRegistrationTime()) > rewardPromotionSetting.getEffectiveTime())) {
                         //只有首次交易获得佣金
                         if (x.getTransactions() == 1 && x.getInviterId() != null) {
-                            Member member2 = memberDao.findOne(x.getInviterId());
+                            Member member2 = memberDao.findById(x.getInviterId()).orElse(null);
                             MemberWallet memberWallet1 = memberWalletService.findByCoinAndMember(rewardPromotionSetting.getCoin(), member2);
                             BigDecimal number = mulRound(order.getNumber(), div(coins.get(order.getCoin().getUnit()), coins.get("USDT")));
                             BigDecimal amount1 = mulRound(number, getRate(JSONObject.parseObject(rewardPromotionSetting.getInfo()).getBigDecimal("one")));
@@ -63,7 +63,7 @@ public class OrderEvent {
                             rewardRecord1.setType(RewardRecordType.PROMOTION);
                             rewardRecordService.save(rewardRecord1);
                             if (member2.getInviterId() != null) {
-                                Member member3 = memberDao.findOne(member2.getInviterId());
+                                Member member3 = memberDao.findById(member2.getInviterId()).orElse(null);
                                 MemberWallet memberWallet2 = memberWalletService.findByCoinAndMember(rewardPromotionSetting.getCoin(), member3);
                                 BigDecimal amount2 = mulRound(number, getRate(JSONObject.parseObject(rewardPromotionSetting.getInfo()).getBigDecimal("two")));
                                 memberWallet2.setBalance(add(memberWallet2.getBalance(), amount2));
