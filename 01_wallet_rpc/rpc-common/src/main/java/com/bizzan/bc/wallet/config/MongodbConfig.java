@@ -38,7 +38,8 @@ public class MongodbConfig extends AbstractMongoClientConfiguration {
     }
 
     @Bean
-    public MongoDatabaseFactory dbFactory() throws Exception {
+    @Override
+    public MongoDatabaseFactory mongoDbFactory() {
         return new SimpleMongoClientDatabaseFactory(new ConnectionString(uri));
     }
 

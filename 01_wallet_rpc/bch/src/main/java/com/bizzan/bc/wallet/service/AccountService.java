@@ -1,10 +1,10 @@
 package com.bizzan.bc.wallet.service;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.WriteResult;
 import com.bizzan.bc.wallet.entity.Account;
 import com.bizzan.bc.wallet.entity.BalanceSum;
 import com.bizzan.bc.wallet.entity.Coin;
+import com.mongodb.client.result.UpdateResult;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -183,7 +183,7 @@ public class AccountService {
     public BigDecimal findBalanceSum() {
         Aggregation aggregation = Aggregation.
                 newAggregation(Aggregation.group("max").sum("balance").as("totalBalance"))
-                .withOptions(Aggregation.newAggregationOptions().cursor(new BasicDBObject()).build());
+                .withOptions(Aggregation.newAggregationOptions().cursor(new Document()).build());
         AggregationResults<BalanceSum> results = mongoTemplate.aggregate(aggregation, getCollectionName(), BalanceSum.class);
         List<BalanceSum> list = results.getMappedResults();
         return list.get(0).getTotalBalance().setScale(8, BigDecimal.ROUND_DOWN);
@@ -200,7 +200,7 @@ public class AccountService {
         Query query = new Query();
         Criteria criteria = Criteria.where("address").is(address.toLowerCase());
         query.addCriteria(criteria);
-        WriteResult result = mongoTemplate.updateFirst(query, Update.update("balance", balance.setScale(8, BigDecimal.ROUND_DOWN)), getCollectionName());
+        UpdateResult result = mongoTemplate.updateFirst(query, Update.update("balance", balance.setScale(8, BigDecimal.ROUND_DOWN)), getCollectionName());
     }
 
     public void updateBalanceAndGas(String address, BigDecimal balance,BigDecimal gas) {
@@ -210,6 +210,6 @@ public class AccountService {
         Update update =  new Update();
         update.set("balance", balance.setScale(8, BigDecimal.ROUND_DOWN));
         update.set("gas",gas);
-        WriteResult result = mongoTemplate.updateFirst(query,update, getCollectionName());
+        UpdateResult result = mongoTemplate.updateFirst(query,update, getCollectionName());
     }
 }

@@ -1,0 +1,14 @@
+spring:
+  main:
+    allow-circular-references: true
+  devtools:
+    add-properties: false
+  application:
+    name: service-rpc-usdt
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 192.168.1.110:8848
+      config:
+        file-extension: yaml

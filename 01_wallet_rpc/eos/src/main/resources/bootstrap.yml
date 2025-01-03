@@ -1,0 +1,27 @@
+spring:
+  main:
+    allow-circular-references: true
+  devtools:
+    add-properties: false
+  application:
+    name: service-rpc-eos
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 192.168.1.110:8848
+      config:
+        file-extension: yaml
+bizzan:
+  blockApi: https://open-api.eos.blockdog.com/
+  apikey: a9cbd245-e976-458a-9
+coin:
+  rpc:
+  name: EOS
+  unit: EOS
+  depositAddress: z5z5z5z5z5z5
+watcher:
+  init-block-height: 79953165
+  step: 100
+  confirmation: 200
+  interval: 20000
